@@ -1,0 +1,24 @@
+<launch>
+  <!-- Cartographer 的 lua 配置 -->
+  <arg name="config_dir" />
+  <arg name="config_basename" />
+  <!-- 一般相对于 0 号轨迹（地图轨迹） -->
+  <arg name="relative_to_trajectory_id" default="0" />
+  <!-- RViz 的 2D Pose Estimate 使用的坐标系 -->
+  <arg name="expected_frame_id" default="map" />
+
+  <node name="cartographer_initialpose_bridge"
+        pkg="abtr_initial_pose"
+        type="cartographer_initialpose_bridge"
+        output="screen">
+
+    <param name="configuration_directory" value="$(arg config_dir)" />
+    <param name="configuration_basename"  value="$(arg config_basename)" />
+    <param name="relative_to_trajectory_id" value="$(arg relative_to_trajectory_id)" />
+    <param name="expected_frame_id" value="$(arg expected_frame_id)" />
+
+    <!-- 拖一次 initialpose：finish 当前轨迹 + start 新轨迹 -->
+    <param name="auto_finish_active_trajectory" value="true" />
+  </node>
+</launch>
+
